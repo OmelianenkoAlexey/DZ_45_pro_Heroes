@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ! DZ 46 -->
+
+    <!-- <div class="container">
+    </div> -->
+
+
+    <form class="heroes__form" id="heroesForm">
+        <label>
+            Name Surname: <input type="text" id="name" value="Iron Man" placeholder="Iron Man">
+        </label>
+        <label>
+            Comics: <select id="comics" data-name="heroComics">
+                <!-- <option value="Marvel">Marvel</option>
+                <option value="DC">DC</option>
+                <option value="Comix Zone">Comix Zone</option> -->
+            </select>
+        </label>
+        <label>
+            Favourite:
+            <div class="heroFavouriteInput">
+                <input type="checkbox" id="inputFavourite" data-name="heroFavourite">
+            </div>
+        </label>
+
+        <button id="button">Add Hero</button>
+    </form>
+
+    <table class="heroes__table" id="heroesTable">
+        <thead>
+            <tr>
+                <th>Name Surname</th>
+                <th>Comics</th>
+                <th>Favourite</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            <!-- <tr>
+                <td>Iron Man</td>
+                <td>Marvel</td>
+                <td>
+                    <label class="heroFavouriteInput">
+                        Favourite: <input type="checkbox">
+                    </label>
+                </td>
+                <td><button>Delete</button></td>
+            </tr> -->
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
