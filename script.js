@@ -154,6 +154,14 @@ async function renderUser(item) {
     const inputFavorite = document.createElement("input");
     inputFavorite.type = "checkbox";
 
+    // inputFavorite.checked = `${item.favorite}`;
+
+    inputFavorite.addEventListener("click", async () => {
+        // ! Запрос на изменение состояния Favourite
+        const body = { ...item, favorite: inputFavorite.checked };
+        const response = await controller("PUT", `heroes/${item.id}`, body);
+    })
+
     const tdButton = document.createElement("td");
     const button = document.createElement("button");
     button.innerText = "Delete:";
