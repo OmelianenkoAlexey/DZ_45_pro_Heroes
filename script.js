@@ -99,21 +99,26 @@ async function createUser() {
     // ! Запрос с сервера на проверку совпадения имени юзера
     const dataServ = await controller("GET", "heroes");
 
+    let onOff = true;
     dataServ.forEach(async item => {
+
         if (fullName === item.name) {
             console.log("Пользователь с таким именем уже существует");
             alert("Пользователь с таким именем уже существует");
+            onOff = false;
         }
     })
 
-    const body = {
-        name: fullName,
-        comics,
-        favorite: inputFavourite,
-    }
+    if (onOff) {
+        const body = {
+            name: fullName,
+            comics,
+            favorite: inputFavourite,
+        }
 
-    const response = await controller("POST", "heroes", body);
-    await responseUserServ();
+        const response = await controller("POST", "heroes", body);
+        await responseUserServ();
+    }
 };
 
 const tbody = document.getElementById("tbody");
