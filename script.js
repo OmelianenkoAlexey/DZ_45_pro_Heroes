@@ -117,7 +117,9 @@ async function createUser() {
         }
 
         const response = await controller("POST", "heroes", body);
-        await responseUserServ();
+        console.log(response);
+        // await responseUserServ();
+        await renderUser(response);
     }
 };
 
@@ -138,6 +140,8 @@ responseUserServ();
 async function renderUser(item) {
 
     const tr = document.createElement("tr");
+
+    tr.id = `${item.id}`;
 
     const tdName = document.createElement("td");
     tdName.innerText = `${item.name}`;
@@ -177,12 +181,14 @@ async function renderUser(item) {
     tdButton.append(button);
     tr.append(tdButton);
 
-    tbody.append(tr);
+    tbody.prepend(tr);
 
     // ! Удаление юзера
     button.addEventListener("click", async () => {
         const response = await controller("DELETE", `heroes/${item.id}`);
-        responseUserServ();
+        const element = document.getElementById(`${item.id}`)
+        element.remove();
+        // responseUserServ();
     })
 }
 
