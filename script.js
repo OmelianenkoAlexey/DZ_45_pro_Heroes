@@ -157,11 +157,6 @@ async function renderUser(item) {
     // ! добавление checked переводит checkbox в true
     if (item.favorite === true) inputFavorite.setAttribute("checked", "");
 
-
-
-
-    // inputFavorite.checkbox = `${item.favorite}`;
-
     inputFavorite.addEventListener("click", async () => {
         // ! Запрос на изменение состояния Favourite
         const body = { ...item, favorite: inputFavorite.checked };
