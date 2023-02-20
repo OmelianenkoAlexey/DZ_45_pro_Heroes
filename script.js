@@ -152,9 +152,15 @@ async function renderUser(item) {
     labelFavorite.innerText = "Favourite:";
 
     const inputFavorite = document.createElement("input");
-    inputFavorite.type = "checkbox";
+    inputFavorite.setAttribute("type", "checkbox");
 
-    // inputFavorite.checked = `${item.favorite}`;
+    // ! добавление checked переводит checkbox в true
+    if (item.favorite === true) inputFavorite.setAttribute("checked", "");
+
+
+
+
+    // inputFavorite.checkbox = `${item.favorite}`;
 
     inputFavorite.addEventListener("click", async () => {
         // ! Запрос на изменение состояния Favourite
