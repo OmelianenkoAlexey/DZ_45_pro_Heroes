@@ -70,23 +70,21 @@ async function controller(method, action, body) {
 
 const form = document.getElementById("heroesForm");
 // ! Событие на форму
-form.addEventListener("submit", async e => {
+form.addEventListener("submit", e => {
     e.preventDefault();
-    const newUser = await createUser();
+    const newUser = createUser();
 });
 
 // ! Запрос на comics из сервера
-function getCosmics() {
-    controller("GET", "universes")
-        .then(data => {
-            data.forEach(item => {
-                const comics = document.getElementById("comics");
-                const optionCosmics = document.createElement("option");
-                optionCosmics.value = `${item.name}`;
-                optionCosmics.innerText = `${item.name}`;
-                comics.append(optionCosmics);
-            })
-        });
+async function getCosmics() {
+    const response = await controller("GET", "universes");
+    response.forEach(item => {
+        const comics = document.getElementById("comics");
+        const optionCosmics = document.createElement("option");
+        optionCosmics.value = `${item.name}`;
+        optionCosmics.innerText = `${item.name}`;
+        comics.append(optionCosmics);
+    })
 }
 getCosmics();
 
@@ -99,17 +97,11 @@ async function createUser() {
     // ! Запрос с сервера на проверку совпадения имени юзера
     const dataServ = await controller("GET", "heroes");
 
-    let onOff = true;
-    dataServ.forEach(async item => {
-
-        if (fullName === item.name) {
-            console.log("Пользователь с таким именем уже существует");
-            alert("Пользователь с таким именем уже существует");
-            onOff = false;
-        }
-    })
-
-    if (onOff) {
+    // ! способ 2
+    if (dataServ.find(item => fullName === item.name)) {
+        console.log("Пользователь с таким именем уже существует");
+        alert("Пользователь с таким именем уже существует");
+    } else {
         const body = {
             name: fullName,
             comics,
@@ -117,8 +109,6 @@ async function createUser() {
         }
 
         const response = await controller("POST", "heroes", body);
-        console.log(response);
-        // await responseUserServ();
         await renderUser(response);
     }
 };
@@ -126,13 +116,10 @@ async function createUser() {
 const tbody = document.getElementById("tbody");
 // ! Запрос users из сервера
 async function responseUserServ() {
-    tbody.innerHTML = "";
-    controller("GET", "heroes")
-        .then(data => {
-            data.forEach(async item => {
-                await renderUser(item)
-            })
-        });
+    const response = await controller("GET", "heroes");
+    response.forEach(async item => {
+        await renderUser(item)
+    })
 }
 responseUserServ();
 
@@ -188,13 +175,8 @@ async function renderUser(item) {
         const response = await controller("DELETE", `heroes/${item.id}`);
         const element = document.getElementById(`${item.id}`)
         element.remove();
-        // responseUserServ();
     })
 }
-
-
-
-
 
 // !!!!!!!!!!!!!!!!
 // ! Добавление в universes
