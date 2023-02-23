@@ -66,7 +66,17 @@ async function controller(method, action, body) {
     const response = await fetch(URL, params);
     const data = await response.json();
     return data;
-}
+};
+
+// ! IMAGE BASE 64
+const getBase64 = file => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => resolve("");
+    });
+};
 
 const form = document.getElementById("heroesForm");
 // ! Событие на форму
@@ -94,6 +104,14 @@ async function createUser() {
     const comics = document.getElementById("comics").value;
     const inputFavourite = document.getElementById("inputFavourite").checked;
 
+    // ! НЕ нужно ставить value
+    const image = document.getElementById("avatar");
+    console.log(image);
+    console.dir(image);
+
+    const avatar = await getBase64(image.files[0]);
+    console.log(avatar);
+
     // ! Запрос с сервера на проверку совпадения имени юзера
     const dataServ = await controller("GET", "heroes");
 
@@ -105,11 +123,13 @@ async function createUser() {
         const body = {
             name: fullName,
             comics,
+            avatar,
             favorite: inputFavourite,
         }
 
         const response = await controller("POST", "heroes", body);
         await renderUser(response);
+        console.log(response);
     }
 };
 
@@ -158,6 +178,11 @@ async function renderUser(item) {
     const button = document.createElement("button");
     button.innerText = "Delete:";
 
+    const avatarImage = document.createElement("img");
+    avatarImage.setAttribute("src", `${item.avatar}`);
+
+
+
     tr.append(tdName);
     tr.append(tdComics);
 
@@ -168,6 +193,8 @@ async function renderUser(item) {
     tdButton.append(button);
     tr.append(tdButton);
 
+    tr.append(avatarImage);
+
     tbody.prepend(tr);
 
     // ! Удаление юзера
@@ -177,6 +204,10 @@ async function renderUser(item) {
         element.remove();
     })
 }
+
+
+
+
 
 // !!!!!!!!!!!!!!!!
 // ! Добавление в universes
