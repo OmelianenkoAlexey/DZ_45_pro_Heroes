@@ -205,6 +205,18 @@ async function renderUser(item) {
     })
 }
 
+const input = document.getElementById("input");
+const cont = document.getElementById("cont");
+const coment = document.getElementById("coment");
+cont.append(coment);
+
+// !событие на изменение (input или change)
+input.addEventListener("input", e => {
+    console.log(e.target.value);
+
+    e.target.value === '' ? coment.innerText = "Введите что нибудь." : coment.innerText = '';
+})
+
 
 
 
